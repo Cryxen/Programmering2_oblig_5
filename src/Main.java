@@ -50,10 +50,24 @@ public class Main {
 //                Word newWord = new Word(DictionaryFile[0], DictionaryFile[1], DictionaryFile[2]);
 //        System.out.println(newWord.toString());
 
-        System.out.println(listNorwegianWords(Dictionary));
-        System.out.println(listEnglishWords(Dictionary));
+        // Kilde til forklaring: Bordal, Guri; Hagemann, Kristin: substantiv i Store norske leksikon på snl.no.
+        // Hentet 13. april 2022 fra https://snl.no/substantiv
+        Wordclass substantiv = new Wordclass("substantiv", "Substantiv som ordklasse med ord som omhandler " +
+                "personer, ting og begreper. Les mer om substantiv her: https://snl.no/substantiv");
+
+        // Kilde til forklaring: Bordal, Guri; Hagemann, Kristin: pronomen i Store norske leksikon på snl.no.
+        // Hentet 13. april 2022 fra https://snl.no/pronomen
+        Wordclass pronomen = new Wordclass("pronomen", "Pronomen som ordklasse omhandler ord som benyttes" +
+                "i stedet for andre ord. Les mer om pronomen her: https://snl.no/pronomen");
+
+        // Kilde til forklaring: Hagemann, Kristin: adverb i Store norske leksikon på snl.no.
+        // Hentet 13. april 2022 fra https://snl.no/adverb
+        Wordclass adverb = new Wordclass("adverb", "Adverb er en ordklasse med ubøyelige ord " +
+                "som står til andre ord, og påvirker hva de betyr. Les mer om adverb her: https://snl.no/adverb")
     }
 
+    // Static functions to retrieve list with norwegian, english and wordclass.
+    // TODO: Consider refactoring to different file or place.
     public static ArrayList<String> listNorwegianWords(ArrayList<Word> dictionary) {
         ArrayList<String> words = new ArrayList<>();
         for (Word word: dictionary
@@ -68,6 +82,14 @@ public class Main {
         for (Word word: dictionary
         ) {
             words.add(word.englishWord);
+        }
+        return words;
+    }
+    public static ArrayList<String> listWordclasses(ArrayList<Word> dictionary) {
+        ArrayList<String> words = new ArrayList<>();
+        for (Word word: dictionary
+        ) {
+            words.add(word.wordClass);
         }
         return words;
     }
