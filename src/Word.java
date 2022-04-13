@@ -1,17 +1,17 @@
-import java.util.ArrayList;
-
-public class Word {
+public class Word extends Wordclass{
         String norwegianWord;
         String englishWord;
-        String wordClass;
+
 
         // Constructor
-    public Word(String norwegianWord, String englishWord, String wordClass) {
+    public Word(String norwegianWord, String englishWord, Wordclass wordClass) {
+        super();
+        setWordclass(String.valueOf(wordClass));
         this.norwegianWord = norwegianWord;
         this.englishWord = englishWord;
-        this.wordClass = wordClass;
     }
         // Get and Set
+
 
     public String getNorwegianWord() {
         return norwegianWord;
@@ -29,22 +29,17 @@ public class Word {
         this.englishWord = englishWord;
     }
 
-    public String getWordClass() {
-        return wordClass;
-    }
-
-    public void setWordClass(String wordClass) {
-        this.wordClass = wordClass;
-    }
 
     @Override
     public String toString() {
         return "Word{" +
                 "norwegianWord='" + norwegianWord + '\'' +
                 ", englishWord='" + englishWord + '\'' +
-                ", wordClass='" + wordClass + '\'' +
+                ", wordClass='" + getWordclass() + '\'' +
                 '}';
     }
+
+
 
 
 }

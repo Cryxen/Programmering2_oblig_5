@@ -2,11 +2,20 @@ public class Wordclass {
     String wordclass;
     String explanationOfClass;
 
-    //Constructor
+//    Constructor
     public Wordclass(String wordclass, String explanationOfClass) {
         this.wordclass = wordclass;
         this.explanationOfClass = explanationOfClass;
     }
+
+    public Wordclass() {
+
+    }
+//
+//    public Wordclass(String wordclass) {
+//        this.wordclass = wordclass;
+//    }
+
     //Get and set
     public String getWordclass() {
         return wordclass;
