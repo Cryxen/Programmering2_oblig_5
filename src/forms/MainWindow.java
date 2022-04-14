@@ -102,7 +102,7 @@ public class MainWindow implements ListSelectionListener, ActionListener {
         }
 
         // Give the frame an initial size.
-        jMainFrame.setSize(400, 400);
+        jMainFrame.setSize(600, 600);
 //
 
 
@@ -121,6 +121,7 @@ public class MainWindow implements ListSelectionListener, ActionListener {
         // Make all Jlists scrollable
         JScrollPane jScrlpnNorwegianWords = new JScrollPane(norwegianWordsJlist);
         jScrlpnNorwegianWords.setPreferredSize(new Dimension(200,90));
+
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
         constraints.gridy = 2;
