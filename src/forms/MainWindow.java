@@ -1,26 +1,42 @@
 package forms;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
 public class MainWindow {
     public MainWindow() {
         // Create a new JFrame container.
-        JFrame jfrm = new JFrame ("A Simple Swing Application");
-
+        JFrame jFrame = new JFrame ("A Simple Swing Application");
+        // Set jFrame layout to Flowlayout
+        jFrame.setLayout(new FlowLayout());
         // Give the frame an initial size.
-        jfrm.setSize(275, 100);
+        jFrame.setSize(400, 400);
 
         // Terminate the program when the user closes the application.
-        jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create a text-based label.
-        JLabel jlab = new JLabel("GUI Programming with Swing");
+        JLabel jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
 
-        // Add the label to the content pane
-        jfrm.add(jlab);
+        // Create a list
+        JList jListDictionary = new JList<String>();
+
+        // Make the list scrollable
+        JScrollPane jScrollPane = new JScrollPane(jListDictionary);
+
+        // Add the items to the content pane
+        jFrame.add(jLblHeadliner);
+        jFrame.add(jListDictionary);
 
         // Display the frame
-        jfrm.setVisible(true);
+        jFrame.setVisible(true);
+    }
+// TODO populate String
+    public  populateList (ArrayList<String> listItems) {
+        JList<String> jList = new JList<String>(listItems);
+
+
     }
     }
 

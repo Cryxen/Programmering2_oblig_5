@@ -1,6 +1,5 @@
 import Tools.FileReader;
 import forms.MainWindow;
-import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import java.io.File;
@@ -78,6 +77,7 @@ public class Main {
         }
 //                Word newWord = new Word(DictionaryFile[0], DictionaryFile[1], DictionaryFile[2]);
 //        System.out.println(newWord.toString());
+
 
     }
 
