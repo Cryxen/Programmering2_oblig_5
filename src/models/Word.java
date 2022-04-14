@@ -1,9 +1,5 @@
 package models;
 
-import models.Wordclass;
-
-import java.util.ArrayList;
-
 public class Word extends Wordclass{
         String norwegianWord;
         String englishWord;

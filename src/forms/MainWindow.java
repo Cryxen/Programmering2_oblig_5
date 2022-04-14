@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class MainWindow {
@@ -16,7 +15,6 @@ public class MainWindow {
     private JList<Word> dictionaryList;
     private DefaultListModel<Word> dictionary = new DefaultListModel<>();
 
-    // Create wordclasses
     // Create wordclasses
     // Kilde til forklaring: Bordal, Guri; Hagemann, Kristin: substantiv i Store norske leksikon på snl.no.
     // Hentet 13. april 2022 fra https://snl.no/substantiv
@@ -38,29 +36,29 @@ public class MainWindow {
     // Open dictionary
     FileReader fileReader = new FileReader();
     File file = new File("csvFiles/dictionary.csv");
-//        System.out.println(fileReader.readFromFile(file));
 
 
     // Lager bare en liste med hver detalj. Vi ønsker å lage objekter.
     String[] DictionaryFile = fileReader.readFromFile(file).split(";");
     int x = 0;
-{
-    for (int i = 0; i < DictionaryFile.length / 3; i++) {
-        // Making sure the word gets the right wordclass when making object
-        if (Objects.equals(DictionaryFile[x + 2], "substantiv")) {
-            dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], substantiv));
-        } else if (Objects.equals(DictionaryFile[x + 2], "pronomen")) {
-            dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], pronomen));
-        } else if (Objects.equals(DictionaryFile[x + 2], "adverb")) {
-            dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], adverb));
-        } else System.err.println("Something went wrong Creating objects from csv file: " + file);
 
-        if (x < 15) {
-            x += 3;
+    {
+        for (int i = 0; i < DictionaryFile.length / 3; i++) {
+            // Making sure the word gets the right wordclass when making object
+            if (Objects.equals(DictionaryFile[x + 2], "substantiv")) {
+                dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], substantiv));
+            } else if (Objects.equals(DictionaryFile[x + 2], "pronomen")) {
+                dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], pronomen));
+            } else if (Objects.equals(DictionaryFile[x + 2], "adverb")) {
+                dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], adverb));
+            } else System.err.println("Something went wrong Creating objects from csv file: " + file);
+
+            if (x < 15) {
+                x += 3;
+            }
         }
+        System.out.println(dictionary);
     }
-    System.out.println(dictionary);
-}
 
     public MainWindow() {
         String[] testString = {"test1", "test2", "test3"};
@@ -79,11 +77,11 @@ public class MainWindow {
         JLabel jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
 
         // Make the list scrollable
-//        JScrollPane jScrollPane = new JScrollPane(jListDictionary);
+        JScrollPane jScrollPane = new JScrollPane(dictionaryList);
 
         // Add the items to the content pane
         jFrame.add(jLblHeadliner);
-        jFrame.add(dictionaryList);
+        jFrame.add(jScrollPane);
 
         // Display the frame
         jFrame.setVisible(true);

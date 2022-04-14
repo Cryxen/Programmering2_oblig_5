@@ -13,10 +13,6 @@ public class Wordclass {
     public Wordclass() {
 
     }
-//
-//    public models.Wordclass(String wordclass) {
-//        this.wordclass = wordclass;
-//    }
 
     //Get and set
     public String getWordclass() {
