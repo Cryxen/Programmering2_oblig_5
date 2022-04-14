@@ -12,7 +12,11 @@ public class Word extends Wordclass{
         this.norwegianWord = norwegianWord;
         this.englishWord = englishWord;
     }
-        // Get and Set
+
+    public Word(String norwegianWord) {
+        this.norwegianWord = norwegianWord;
+    }
+    // Get and Set
 
 
     public String getNorwegianWord() {

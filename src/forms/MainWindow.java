@@ -5,15 +5,29 @@ import models.Word;
 import models.Wordclass;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainWindow {
+public class MainWindow implements ListSelectionListener {
 
-    private JList<Word> dictionaryList;
+    //Jlists
+    private JList<Word> dictionaryJList;
+    private JList<String> norwegianWordsJlist;
+    private JList<String> englishWordsJlist;
+    private JList<String> wordClassesJlist;
+
+    //Default lists
     private DefaultListModel<Word> dictionary = new DefaultListModel<>();
+    private DefaultListModel<String> norwegianWords = new DefaultListModel<>();
+    private DefaultListModel<String> englishWords = new DefaultListModel<>();
+    private DefaultListModel<String> wordClasses = new DefaultListModel<>();
+
+    //JLabels
+    private JLabel englishTranslation;
+    private JLabel englishTranslationHeadliner;
 
     // Create wordclasses
     // Kilde til forklaring: Bordal, Guri; Hagemann, Kristin: substantiv i Store norske leksikon på snl.no.
@@ -57,65 +71,101 @@ public class MainWindow {
                 x += 3;
             }
         }
-        System.out.println(dictionary);
+
+        // Populate the list with norwegian word and english word
+        norwegianWords = listNorwegianWords(dictionary);
+        englishWords = listEnglishWords(dictionary);
+        wordClasses = listWordclasses(dictionary);
+
     }
+
 
     public MainWindow() {
         String[] testString = {"test1", "test2", "test3"};
         // Create a new JFrame container.
-        JFrame jFrame = new JFrame ("A Simple Swing Application");
+        JFrame jMainFrame = new JFrame ("A Simple Swing Application");
         // Set jFrame layout to Flowlayout
-        jFrame.setLayout(new FlowLayout());
+        jMainFrame.setLayout(new FlowLayout());
         // Give the frame an initial size.
-        jFrame.setSize(400, 400);
+        jMainFrame.setSize(400, 400);
 
-        dictionaryList = new JList<Word>(dictionary);
+
+        //splitPane
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+
+
+
+        //JLists
+        dictionaryJList = new JList<Word>(dictionary);
+        norwegianWordsJlist = new JList<>(norwegianWords);
+        englishWordsJlist = new JList<>(englishWords);
+        wordClassesJlist = new JList<>(wordClasses);
+
+        //Make the JList single touch and give action call
+        norwegianWordsJlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        norwegianWordsJlist.addListSelectionListener(this);
+
+        // Make all Jlists scrollable
+        JScrollPane jScrlpnNorwegianWords = new JScrollPane(norwegianWordsJlist);
+        JScrollPane jScrlpnEnglishWords = new JScrollPane(englishWordsJlist);
+        JScrollPane jScrlpnWordClasses = new JScrollPane(wordClassesJlist);
+
         // Terminate the program when the user closes the application.
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Create a text-based label.
-//        JLabel jLblHeadliner = new JLabel();
-        JLabel jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
+        jMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Make the list scrollable
-        JScrollPane jScrollPane = new JScrollPane(dictionaryList);
+
+        // Create a text-based label.
+        JLabel jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
+        englishTranslationHeadliner = new JLabel("Engelsk oversettelse");
+        englishTranslation = new JLabel("");
+
 
         // Add the items to the content pane
-        jFrame.add(jLblHeadliner);
-        jFrame.add(jScrollPane);
+        jMainFrame.add(jLblHeadliner);
+//        jMainFrame.add(jScrlpnNorwegianWords);
+//        jNorwegianFrame.add(jScrlpnNorwegianWords);
+        jMainFrame.add(splitPane);
+        splitPane.setLeftComponent(jScrlpnNorwegianWords);
+//        splitPane.setRightComponent(englishTranslationHeadliner);
+        splitPane.setRightComponent(englishTranslation);
+//        jMainFrame.add(jScrlpnWordClasses);
+
 
         // Display the frame
-        jFrame.setVisible(true);
-
-
-
+        jMainFrame.setVisible(true);
+        System.out.println(listNorwegianWords(dictionary));
     }
 
     // Static functions to retrieve list with norwegian, english and wordclass.
     // TODO: Consider refactoring to different file or place.
-    public static ArrayList<String> listNorwegianWords(ArrayList<Word> dictionary) {
-        ArrayList<String> words = new ArrayList<>();
-        for (Word word: dictionary
-        ) {
-            words.add(word.getNorwegianWord());
+    public static DefaultListModel<String> listNorwegianWords(DefaultListModel<Word>  dictionary) {
+        DefaultListModel<String> words = new DefaultListModel<>();
+        for (int i = 0; i <dictionary.getSize(); i++) {
+              words.addElement(dictionary.get(i).getNorwegianWord());
         }
         return words;
     }
 
-    public static ArrayList<String> listEnglishWords(ArrayList<Word> dictionary) {
-        ArrayList<String> words = new ArrayList<>();
-        for (Word word: dictionary
-        ) {
-            words.add(word.getEnglishWord());
+    public static DefaultListModel<String> listEnglishWords(DefaultListModel<Word>  dictionary) {
+        DefaultListModel<String> words = new DefaultListModel<>();
+        for (int i = 0; i <dictionary.getSize(); i++) {
+            words.addElement(dictionary.get(i).getEnglishWord());
         }
         return words;
     }
-    public static ArrayList<String> listWordclasses(ArrayList<Word> dictionary) {
-        ArrayList<String> words = new ArrayList<>();
-        for (Word word: dictionary
-        ) {
-            words.add(word.getWordclass());
+    public static DefaultListModel<String>  listWordclasses(DefaultListModel<Word>  dictionary) {
+        DefaultListModel<String> words = new DefaultListModel<>();
+        for (int i = 0; i <dictionary.getSize(); i++) {
+            words.addElement(dictionary.get(i).getWordclass());
         }
         return words;
     }
+
+    public void valueChanged (ListSelectionEvent le) {
+        int index = norwegianWordsJlist.getSelectedIndex();
+        System.out.println(dictionary.get(index));
+        englishTranslation.setText(dictionary.get(index).getEnglishWord());
+    }
+
     }
 
