@@ -8,10 +8,12 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Objects;
 
-public class MainWindow implements ListSelectionListener {
+public class MainWindow implements ListSelectionListener, ActionListener {
 
     // Uncertain what it does: https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/GridBagLayoutDemoProject/src/layout/GridBagLayoutDemo.java
     final static boolean shouldFill = true;
@@ -32,6 +34,10 @@ public class MainWindow implements ListSelectionListener {
     private JLabel englishTranslation;
     private JLabel englishTranslationHeadliner;
     private JLabel emptyJLabel;
+    private JLabel wordclassInformation;
+
+    //int
+    private int placeInList;
 
     // Create wordclasses
     // Kilde til forklaring: Bordal, Guri; Hagemann, Kristin: substantiv i Store norske leksikon på snl.no.
@@ -96,12 +102,8 @@ public class MainWindow implements ListSelectionListener {
         }
 
         // Give the frame an initial size.
-//        jMainFrame.setSize(400, 400);
+        jMainFrame.setSize(400, 400);
 //
-//
-//        //splitPane
-//        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-
 
 
         //JLists
@@ -118,6 +120,7 @@ public class MainWindow implements ListSelectionListener {
 
         // Make all Jlists scrollable
         JScrollPane jScrlpnNorwegianWords = new JScrollPane(norwegianWordsJlist);
+        jScrlpnNorwegianWords.setPreferredSize(new Dimension(200,90));
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
         constraints.gridy = 2;
@@ -132,7 +135,8 @@ public class MainWindow implements ListSelectionListener {
 
         // Label headliner
         JLabel jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 1;
         constraints.weighty = 1;
         constraints.gridwidth = 2;
@@ -142,11 +146,13 @@ public class MainWindow implements ListSelectionListener {
 
 
 
+
         //JLabel that shows the english headline "Engelsk Oversettelse"
         englishTranslationHeadliner = new JLabel("Engelsk oversettelse");
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 1;
-        constraints.weighty = 1;
+        constraints.gridwidth = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
         constraints.gridx = 1;
         constraints.gridy = 1;
         jMainFrame.add(englishTranslationHeadliner, constraints);
@@ -159,9 +165,20 @@ public class MainWindow implements ListSelectionListener {
         constraints.fill = GridBagConstraints.BOTH;
         jMainFrame.add(englishTranslation, constraints);
 
+        wordclassInformation = new JLabel("");
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        jMainFrame.add(wordclassInformation, constraints);
+
+        // Make a "Learn more about wordclass button
+        JButton learnWordClass = new JButton("Lær mer om ordklassen");
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        jMainFrame.add(learnWordClass, constraints);
+
+        learnWordClass.addActionListener(this);
 
         // Display the frame
-        jMainFrame.pack();
         jMainFrame.setVisible(true);
         System.out.println(listNorwegianWords(dictionary));
     }
@@ -186,16 +203,54 @@ public class MainWindow implements ListSelectionListener {
     public static DefaultListModel<String>  listWordclasses(DefaultListModel<Word>  dictionary) {
         DefaultListModel<String> words = new DefaultListModel<>();
         for (int i = 0; i <dictionary.getSize(); i++) {
-            words.addElement(dictionary.get(i).getWordclass());
+            words.addElement(dictionary.get(i).getExplanationOfClass());
         }
         return words;
     }
 
     public void valueChanged (ListSelectionEvent le) {
         int index = norwegianWordsJlist.getSelectedIndex();
-        System.out.println(dictionary.get(index));
-        englishTranslation.setText(dictionary.get(index).getEnglishWord());
+//        System.out.println(dictionary.get(index));
+//        System.out.println(substantiv.getWordclass());
+        if (dictionary.get(index).getWordclass().contains("substantiv")) {
+            englishTranslation.setText("<html>" + "<blockquote>" + dictionary.get(index).getEnglishWord() + "<br />" +
+                    "Ordklasse: Substantiv"+ "</blockquote>" +"</html>");
+        }
+        else if (dictionary.get(index).getWordclass().contains("pronomen")) {
+            englishTranslation.setText("<html>" + "<blockquote>" + dictionary.get(index).getEnglishWord() +
+                    "<br />" + "Ordklasse: Pronomen" + "</blockquote>" + "</html>");
+        }
+        else if (dictionary.get(index).getWordclass().contains("adverb")) {
+            englishTranslation.setText("<html>" + "<blockquote>" + dictionary.get(index).getEnglishWord() + "<br />" +
+                    "Ordklasse: Adverb" + "</blockquote>" + "</html>");
+        }
+        else {
+            englishTranslation.setText(dictionary.get(index).getEnglishWord() + " ");
+            System.out.println("no hits");
+            System.out.println(dictionary.get(index).getWordclass());
+        }
+
+        placeInList = index;
+
     }
 
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getActionCommand().equals("Lær mer om ordklassen")) {
+            System.out.println("Knapp trykket på.");
+//            int index = dictionary.indexOf(englishTranslation);
+
+            if (dictionary.get(placeInList).getWordclass().contains("substantiv")){
+                wordclassInformation.setText("<html>" + substantiv.getExplanationOfClass() + "</html>");
+            }
+            else if (dictionary.get(placeInList).getWordclass().contains("pronomen"))
+                wordclassInformation.setText("<html>" + pronomen.getExplanationOfClass()+ "</html>");
+            else if (dictionary.get(placeInList).getWordclass().contains("adverb"))
+                wordclassInformation.setText("<html>" + adverb.getExplanationOfClass()+ "</html>");
+            else wordclassInformation.setText("Ingen treff på ordklasse");
+
+            System.out.println(pronomen.getExplanationOfClass());
+            System.out.println(dictionary.get(placeInList).getWordclass());
+        }
+    }
     }
 

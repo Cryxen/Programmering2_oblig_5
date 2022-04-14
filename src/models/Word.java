@@ -17,8 +17,6 @@ public class Word extends Wordclass{
         this.norwegianWord = norwegianWord;
     }
     // Get and Set
-
-
     public String getNorwegianWord() {
         return norwegianWord;
     }
@@ -35,6 +33,10 @@ public class Word extends Wordclass{
         this.englishWord = englishWord;
     }
 
+    @Override
+    public String getWordclass() {
+        return super.getWordclass();
+    }
 
     @Override
     public String toString() {
