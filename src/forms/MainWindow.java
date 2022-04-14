@@ -13,6 +13,9 @@ import java.util.Objects;
 
 public class MainWindow implements ListSelectionListener {
 
+    // Uncertain what it does: https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/GridBagLayoutDemoProject/src/layout/GridBagLayoutDemo.java
+    final static boolean shouldFill = true;
+
     //Jlists
     private JList<Word> dictionaryJList;
     private JList<String> norwegianWordsJlist;
@@ -28,6 +31,7 @@ public class MainWindow implements ListSelectionListener {
     //JLabels
     private JLabel englishTranslation;
     private JLabel englishTranslationHeadliner;
+    private JLabel emptyJLabel;
 
     // Create wordclasses
     // Kilde til forklaring: Bordal, Guri; Hagemann, Kristin: substantiv i Store norske leksikon på snl.no.
@@ -84,29 +88,41 @@ public class MainWindow implements ListSelectionListener {
         String[] testString = {"test1", "test2", "test3"};
         // Create a new JFrame container.
         JFrame jMainFrame = new JFrame ("A Simple Swing Application");
-        // Set jFrame layout to Flowlayout
-        jMainFrame.setLayout(new FlowLayout());
+        // Set jFrame layout to gridBagLayout
+        jMainFrame.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        if (shouldFill) {
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+        }
+
         // Give the frame an initial size.
-        jMainFrame.setSize(400, 400);
-
-
-        //splitPane
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+//        jMainFrame.setSize(400, 400);
+//
+//
+//        //splitPane
+//        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
 
 
         //JLists
-        dictionaryJList = new JList<Word>(dictionary);
+//        dictionaryJList = new JList<Word>(dictionary);
         norwegianWordsJlist = new JList<>(norwegianWords);
-        englishWordsJlist = new JList<>(englishWords);
-        wordClassesJlist = new JList<>(wordClasses);
+//        englishWordsJlist = new JList<>(englishWords);
+//        wordClassesJlist = new JList<>(wordClasses);
+
 
         //Make the JList single touch and give action call
         norwegianWordsJlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         norwegianWordsJlist.addListSelectionListener(this);
 
+
         // Make all Jlists scrollable
         JScrollPane jScrlpnNorwegianWords = new JScrollPane(norwegianWordsJlist);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        jMainFrame.add(jScrlpnNorwegianWords, constraints);
+
         JScrollPane jScrlpnEnglishWords = new JScrollPane(englishWordsJlist);
         JScrollPane jScrlpnWordClasses = new JScrollPane(wordClassesJlist);
 
@@ -114,24 +130,38 @@ public class MainWindow implements ListSelectionListener {
         jMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        // Create a text-based label.
+        // Label headliner
         JLabel jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.gridwidth = 2;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        jMainFrame.add(jLblHeadliner, constraints);
+
+
+
+        //JLabel that shows the english headline "Engelsk Oversettelse"
         englishTranslationHeadliner = new JLabel("Engelsk oversettelse");
-        englishTranslation = new JLabel("");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        jMainFrame.add(englishTranslationHeadliner, constraints);
 
-
-        // Add the items to the content pane
-        jMainFrame.add(jLblHeadliner);
-//        jMainFrame.add(jScrlpnNorwegianWords);
-//        jNorwegianFrame.add(jScrlpnNorwegianWords);
-        jMainFrame.add(splitPane);
-        splitPane.setLeftComponent(jScrlpnNorwegianWords);
-//        splitPane.setRightComponent(englishTranslationHeadliner);
-        splitPane.setRightComponent(englishTranslation);
-//        jMainFrame.add(jScrlpnWordClasses);
+        // English translation that shows when word is pressed.
+        englishTranslation = new JLabel(""); // Gets filled in when jscrlpnNorwegianWord is pressed
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        constraints.fill = GridBagConstraints.BOTH;
+        jMainFrame.add(englishTranslation, constraints);
 
 
         // Display the frame
+        jMainFrame.pack();
         jMainFrame.setVisible(true);
         System.out.println(listNorwegianWords(dictionary));
     }
