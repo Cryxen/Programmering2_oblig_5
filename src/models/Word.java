@@ -1,3 +1,9 @@
+package models;
+
+import models.Wordclass;
+
+import java.util.ArrayList;
+
 public class Word extends Wordclass{
         String norwegianWord;
         String englishWord;
@@ -32,7 +38,7 @@ public class Word extends Wordclass{
 
     @Override
     public String toString() {
-        return "Word{" +
+        return "models.Word{" +
                 "norwegianWord='" + norwegianWord + '\'' +
                 ", englishWord='" + englishWord + '\'' +
                 ", wordClass='" + getWordclass() + '\'' +

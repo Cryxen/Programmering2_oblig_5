@@ -1,3 +1,5 @@
+package models;
+
 public class Wordclass {
     String wordclass;
     String explanationOfClass;
@@ -12,7 +14,7 @@ public class Wordclass {
 
     }
 //
-//    public Wordclass(String wordclass) {
+//    public models.Wordclass(String wordclass) {
 //        this.wordclass = wordclass;
 //    }
 
@@ -35,7 +37,7 @@ public class Wordclass {
 
     @Override
     public String toString() {
-        return "Wordclass{" +
+        return "models.Wordclass{" +
                 "wordclass='" + wordclass + '\'' +
                 ", explanationOfClass='" + explanationOfClass + '\'' +
                 '}';
