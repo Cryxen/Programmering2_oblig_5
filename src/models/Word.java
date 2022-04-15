@@ -1,11 +1,16 @@
 package models;
 
-public class Word extends Wordclass{
-        String norwegianWord;
-        String englishWord;
+import Tools.FileReader;
+
+import java.io.File;
+
+public class Word extends Wordclass {
+    String norwegianWord;
+    String englishWord;
 
 
-        // Constructor
+
+    // Constructor
     public Word(String norwegianWord, String englishWord, Wordclass wordClass) {
         super();
         setWordclass(String.valueOf(wordClass));
@@ -13,9 +18,7 @@ public class Word extends Wordclass{
         this.englishWord = englishWord;
     }
 
-    public Word(String norwegianWord) {
-        this.norwegianWord = norwegianWord;
-    }
+
     // Get and Set
     public String getNorwegianWord() {
         return norwegianWord;
@@ -46,9 +49,7 @@ public class Word extends Wordclass{
                 ", wordClass='" + getWordclass() + '\'' +
                 '}';
     }
-
-
-
-
 }
+
+
 

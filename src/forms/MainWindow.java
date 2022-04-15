@@ -15,17 +15,17 @@ import java.util.Objects;
 
 public class MainWindow implements ListSelectionListener, ActionListener {
 
+    public DefaultListModel<Word> dictionary = new DefaultListModel<>();
+
     // Uncertain what it does: https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/GridBagLayoutDemoProject/src/layout/GridBagLayoutDemo.java
     final static boolean shouldFill = true;
 
     //Jlists
-    private JList<Word> dictionaryJList;
     private JList<String> norwegianWordsJlist;
-    private JList<String> englishWordsJlist;
-    private JList<String> wordClassesJlist;
+
 
     //Default lists
-    private DefaultListModel<Word> dictionary = new DefaultListModel<>();
+//    private DefaultListModel<Word> dictionary = new DefaultListModel<>();
     private DefaultListModel<String> norwegianWords = new DefaultListModel<>();
     private DefaultListModel<String> englishWords = new DefaultListModel<>();
     private DefaultListModel<String> wordClasses = new DefaultListModel<>();
@@ -33,8 +33,11 @@ public class MainWindow implements ListSelectionListener, ActionListener {
     //JLabels
     private JLabel englishTranslation;
     private JLabel englishTranslationHeadliner;
-    private JLabel emptyJLabel;
     private JLabel wordclassInformation;
+    private JLabel jLblHeadliner;
+
+    //Buttons
+    private JButton learnWordClass;
 
     //int
     private int placeInList;
@@ -91,6 +94,7 @@ public class MainWindow implements ListSelectionListener, ActionListener {
 
 
     public MainWindow() {
+        super();
         String[] testString = {"test1", "test2", "test3"};
         // Create a new JFrame container.
         JFrame jMainFrame = new JFrame ("A Simple Swing Application");
@@ -107,10 +111,8 @@ public class MainWindow implements ListSelectionListener, ActionListener {
 
 
         //JLists
-//        dictionaryJList = new JList<Word>(dictionary);
         norwegianWordsJlist = new JList<>(norwegianWords);
-//        englishWordsJlist = new JList<>(englishWords);
-//        wordClassesJlist = new JList<>(wordClasses);
+
 
 
         //Make the JList single touch and give action call
@@ -127,15 +129,12 @@ public class MainWindow implements ListSelectionListener, ActionListener {
         constraints.gridy = 2;
         jMainFrame.add(jScrlpnNorwegianWords, constraints);
 
-        JScrollPane jScrlpnEnglishWords = new JScrollPane(englishWordsJlist);
-        JScrollPane jScrlpnWordClasses = new JScrollPane(wordClassesJlist);
-
         // Terminate the program when the user closes the application.
         jMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         // Label headliner
-        JLabel jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
+        jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 1;
@@ -172,7 +171,7 @@ public class MainWindow implements ListSelectionListener, ActionListener {
         jMainFrame.add(wordclassInformation, constraints);
 
         // Make a "Learn more about wordclass button
-        JButton learnWordClass = new JButton("Lær mer om ordklassen");
+        learnWordClass = new JButton("Lær mer om ordklassen");
         constraints.gridx = 0;
         constraints.gridy = 3;
         jMainFrame.add(learnWordClass, constraints);
@@ -181,7 +180,6 @@ public class MainWindow implements ListSelectionListener, ActionListener {
 
         // Display the frame
         jMainFrame.setVisible(true);
-        System.out.println(listNorwegianWords(dictionary));
     }
 
     // Static functions to retrieve list with norwegian, english and wordclass.
@@ -211,8 +209,6 @@ public class MainWindow implements ListSelectionListener, ActionListener {
 
     public void valueChanged (ListSelectionEvent le) {
         int index = norwegianWordsJlist.getSelectedIndex();
-//        System.out.println(dictionary.get(index));
-//        System.out.println(substantiv.getWordclass());
         if (dictionary.get(index).getWordclass().contains("substantiv")) {
             englishTranslation.setText("<html>" + "<blockquote>" + dictionary.get(index).getEnglishWord() + "<br />" +
                     "Ordklasse: Substantiv"+ "</blockquote>" +"</html>");
@@ -237,9 +233,6 @@ public class MainWindow implements ListSelectionListener, ActionListener {
 
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("Lær mer om ordklassen")) {
-            System.out.println("Knapp trykket på.");
-//            int index = dictionary.indexOf(englishTranslation);
-
             if (dictionary.get(placeInList).getWordclass().contains("substantiv")){
                 wordclassInformation.setText("<html>" + substantiv.getExplanationOfClass() + "</html>");
             }
@@ -248,9 +241,6 @@ public class MainWindow implements ListSelectionListener, ActionListener {
             else if (dictionary.get(placeInList).getWordclass().contains("adverb"))
                 wordclassInformation.setText("<html>" + adverb.getExplanationOfClass()+ "</html>");
             else wordclassInformation.setText("Ingen treff på ordklasse");
-
-            System.out.println(pronomen.getExplanationOfClass());
-            System.out.println(dictionary.get(placeInList).getWordclass());
         }
     }
     }
