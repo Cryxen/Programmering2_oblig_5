@@ -1,8 +1,7 @@
 package forms;
 
 import Tools.FileReader;
-import models.Word;
-import models.Wordclass;
+import models.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -73,11 +72,12 @@ public class MainWindow implements ListSelectionListener, ActionListener {
         for (int i = 0; i < DictionaryFile.length / 3; i++) {
             // Making sure the word gets the right wordclass when making object
             if (Objects.equals(DictionaryFile[x + 2], "substantiv")) {
-                dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], substantiv));
+//                dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], substantiv));
+                dictionary.addElement(new Noun(DictionaryFile[x], DictionaryFile[x + 1], substantiv));
             } else if (Objects.equals(DictionaryFile[x + 2], "pronomen")) {
-                dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], pronomen));
+                dictionary.addElement(new Pronoum(DictionaryFile[x], DictionaryFile[x + 1], pronomen));
             } else if (Objects.equals(DictionaryFile[x + 2], "adverb")) {
-                dictionary.addElement(new Word(DictionaryFile[x], DictionaryFile[x + 1], adverb));
+                dictionary.addElement(new Adverb(DictionaryFile[x], DictionaryFile[x + 1], adverb));
             } else System.err.println("Something went wrong Creating objects from csv file: " + file);
 
             if (x < 15) {
@@ -94,10 +94,8 @@ public class MainWindow implements ListSelectionListener, ActionListener {
 
 
     public MainWindow() {
-        super();
-        String[] testString = {"test1", "test2", "test3"};
         // Create a new JFrame container.
-        JFrame jMainFrame = new JFrame ("A Simple Swing Application");
+        JFrame jMainFrame = new JFrame ("Ordbok");
         // Set jFrame layout to gridBagLayout
         jMainFrame.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -107,8 +105,6 @@ public class MainWindow implements ListSelectionListener, ActionListener {
 
         // Give the frame an initial size.
         jMainFrame.setSize(600, 600);
-//
-
 
         //JLists
         norwegianWordsJlist = new JList<>(norwegianWords);
@@ -134,7 +130,7 @@ public class MainWindow implements ListSelectionListener, ActionListener {
 
 
         // Label headliner
-        jLblHeadliner = new JLabel("Lag din egen Engelsk-Norsk ordbok.");
+        jLblHeadliner = new JLabel("Norsk-Engelsk ordbok.");
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 1;
